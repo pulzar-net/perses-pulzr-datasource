@@ -1,7 +1,7 @@
 package model
 
 import (
-	ds "github.com/pulzr/perses-plugin/schemas/datasources/pulzr-datasource:model"
+	ds "github.com/pulzar-net/perses-pulzr-datasource/schemas/datasources/pulzr-datasource:model"
 )
 
 kind: "PulzrDeviceVariable"

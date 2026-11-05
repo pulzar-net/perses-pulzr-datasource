@@ -1,4 +1,4 @@
-module: "github.com/pulzr/perses-plugin@v0"
+module: "github.com/pulzar-net/perses-pulzr-datasource@v0"
 language: {
 	version: "v0.16.1"
 }

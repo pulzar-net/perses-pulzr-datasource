@@ -1,4 +1,4 @@
-# Pulzr Net plugins for Perses
+# Pulzr Net datasource for Perses
 
 Sensor readings from [Pulzr Net](https://app.pulzr.net) on [Perses](https://perses.dev) dashboards: the same data, aggregates and analytics the Pulzr console draws, in your own Perses.
 
@@ -16,7 +16,7 @@ Every request is made as the API key or signed-in user behind it, with the same 
 ## Use it in Perses
 
 1. In Pulzr Net, open **API keys** and create a key with **Data: Read** and **Devices: Read**, limited to the applications the dashboards should see.
-2. Put the plugin archive (`Pulzr-<version>.tar.gz`, from this repository's releases) in a folder listed in the Perses server's `plugin.archive_paths`.
+2. Put the plugin archive (`PulzrDatasource-<version>.tar.gz`, from this repository's releases) in a folder listed in the Perses server's `plugin.archive_paths`.
 3. Store the key as a Perses secret:
 
    ```yaml
@@ -73,11 +73,11 @@ spec:
 The package also exports every plugin for apps that embed Perses directly, as the Pulzr console does:
 
 ```bash
-npm install @pulzr/perses-plugin
+npm install @pulzr/perses-pulzr-datasource
 ```
 
 ```tsx
-import * as pulzr from '@pulzr/perses-plugin';
+import * as pulzr from '@pulzr/perses-pulzr-datasource';
 
 const pluginLoader = dynamicImportPluginLoader([
   { resource: pulzr.getPluginModule(), importPlugin: async () => pulzr },

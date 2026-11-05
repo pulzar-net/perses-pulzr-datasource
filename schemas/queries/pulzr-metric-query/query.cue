@@ -2,8 +2,8 @@ package model
 
 import (
 	"strings"
-	ds "github.com/pulzr/perses-plugin/schemas/datasources/pulzr-datasource:model"
-	"github.com/pulzr/perses-plugin/schemas/common"
+	ds "github.com/pulzar-net/perses-pulzr-datasource/schemas/datasources/pulzr-datasource:model"
+	"github.com/pulzar-net/perses-pulzr-datasource/schemas/common"
 )
 
 kind: "PulzrMetricQuery"

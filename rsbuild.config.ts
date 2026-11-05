@@ -6,7 +6,7 @@ import { pluginReact } from '@rsbuild/plugin-react';
 
 import packageJson from './package.json' with { type: 'json' };
 
-const name = 'Pulzr';
+const name = 'PulzrDatasource';
 const version = process.env.NODE_ENV === 'development' ? undefined : packageJson.version;
 export const assetPrefix = `/plugins/${name}/`;
 const publicPath = version ? `/plugins/${name}~${version}/` : assetPrefix;

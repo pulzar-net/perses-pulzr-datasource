@@ -1,5 +1,5 @@
 {
-  "name": "@pulzr/perses-plugin",
+  "name": "@pulzr/perses-pulzr-datasource",
   "version": "0.1.0",
   "license": "Apache-2.0",
   "type": "module",
@@ -91,7 +91,7 @@
   "packageManager": "npm@11.17.0",
   "perses": {
     "metadata": {
-      "name": "Pulzr",
+      "name": "PulzrDatasource",
       "registry": "pulzr"
     },
     "schemasPath": "schemas",
@@ -155,7 +155,7 @@
   "description": "Pulzr Net datasource for Perses: sensor readings, SQL, analytics, field changes and devices",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pulzar-net/perses-plugin.git"
+    "url": "git+https://github.com/pulzar-net/perses-pulzr-datasource.git"
   },
-  "homepage": "https://github.com/pulzar-net/perses-plugin#readme"
+  "homepage": "https://github.com/pulzar-net/perses-pulzr-datasource#readme"
 }

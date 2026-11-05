@@ -1,0 +1,11 @@
+{
+  "kind": "PulzrFieldQuery",
+  "spec": {
+    "field": "battery",
+    "aggregate": "min",
+    "devices": ["a84041000181c061", "A84041000181C062"],
+    "groupBy": "device",
+    "filter": [{ "field": "battery", "op": "lt", "value": 3.3 }],
+    "band": { "lo": 3.2, "hi": 3.6 }
+  }
+}

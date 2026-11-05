@@ -1,0 +1,18 @@
+{
+  "kind": "PulzrDatasource",
+  "spec": {
+    "proxy": {
+      "kind": "HTTPProxy",
+      "spec": {
+        "url": "https://app.pulzr.net",
+        "secret": "pulzr-api-key",
+        "allowedEndpoints": [
+          { "endpointPattern": "/api/v1/data/query", "method": "POST" },
+          { "endpointPattern": "/api/v1/data/analytics", "method": "POST" },
+          { "endpointPattern": "/api/v1/data/devices", "method": "GET" },
+          { "endpointPattern": "/api/v1/data/fields", "method": "GET" }
+        ]
+      }
+    }
+  }
+}

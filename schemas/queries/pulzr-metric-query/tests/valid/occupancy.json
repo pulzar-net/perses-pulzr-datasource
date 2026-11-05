@@ -1,0 +1,10 @@
+{
+  "kind": "PulzrMetricQuery",
+  "spec": {
+    "metric": "occupancyRate",
+    "field": "park_status",
+    "equals": 1,
+    "applicationId": "3f6c2a8e-6d1b-4c55-9a7e-0b1d2c3e4f50",
+    "interval": "1h"
+  }
+}

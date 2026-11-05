@@ -1,0 +1,13 @@
+{
+  "kind": "PulzrFieldQuery",
+  "spec": {
+    "datasource": { "kind": "PulzrDatasource" },
+    "field": "cham.t",
+    "fields": ["cham.t", "leaf.t", "ext.t"],
+    "aggregate": "timeWeighted",
+    "interval": "30m",
+    "devices": "$device",
+    "holdFor": "2h",
+    "band": { "center": "sp.t", "spread": "sp.t_tol" }
+  }
+}

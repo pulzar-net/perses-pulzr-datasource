@@ -1,0 +1,7 @@
+{
+  "kind": "PulzrDatasource",
+  "spec": {
+    "directUrl": "https://app.pulzr.net",
+    "proxy": { "kind": "HTTPProxy", "spec": { "url": "https://app.pulzr.net" } }
+  }
+}

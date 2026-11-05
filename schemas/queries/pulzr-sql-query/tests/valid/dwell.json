@@ -1,0 +1,8 @@
+{
+  "kind": "PulzrSqlQuery",
+  "spec": {
+    "sql": "select date_bin('1 hour', time, timestamptz '2000-01-01') as hour, device_name, avg(value) as v from readings where quantity = 'occupancy' and time between $from and $to group by 1, 2",
+    "time": "hour",
+    "series": "device_name"
+  }
+}

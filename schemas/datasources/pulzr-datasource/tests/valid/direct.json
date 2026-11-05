@@ -1,0 +1,6 @@
+{
+  "kind": "PulzrDatasource",
+  "spec": {
+    "directUrl": "https://app.pulzr.net"
+  }
+}

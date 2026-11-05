@@ -1,0 +1,12 @@
+{
+  "kind": "PulzrChangeAnnotation",
+  "spec": {
+    "fields": ["rcp.stage"],
+    "devices": "$device",
+    "states": [
+      { "value": 1, "label": "Stage 1" },
+      { "value": 2, "label": "Stage 2" },
+      { "value": true, "label": "On" }
+    ]
+  }
+}

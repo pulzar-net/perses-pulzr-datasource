@@ -10,4 +10,6 @@ export interface PulzrFieldQuerySpec extends Omit<FieldQuery, 'devices' | 'annot
   datasource?: DatasourceSelector;
   /** DevEUIs, or a variable (`$device`) holding them. */
   devices?: string | string[];
+  /** With one series per device, label each with the device's position, for a map. */
+  positions?: boolean;
 }

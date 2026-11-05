@@ -63,6 +63,30 @@ describe('PulzrFieldQuery', () => {
   });
 });
 
+describe('PulzrFieldQuery positions', () => {
+  it('labels each device series with where the device is', async () => {
+    const query = vi.fn().mockResolvedValue({ ...answer, keys: ['Bay 14', 'Bay 15'] });
+    const liveDevices = vi.fn().mockResolvedValue([
+      {
+        devEui: 'a84041000181c061',
+        name: 'Bay 14',
+        lastSeen: '',
+        location: { latitude: 34.02, longitude: -118.28, source: 'device' },
+      },
+      { devEui: 'a84041000181c062', name: 'Bay 15', lastSeen: '', location: null },
+    ]);
+    const data = await PulzrFieldQuery.getTimeSeriesData(
+      { field: 'park_status', groupBy: 'device', positions: true },
+      context({ query, liveDevices }),
+    );
+    expect(query.mock.calls[0]![0].query).not.toHaveProperty('positions');
+    expect(data.series.map((s) => s.labels)).toEqual([
+      { devEui: 'a84041000181c061', latitude: '34.02', longitude: '-118.28' },
+      undefined,
+    ]);
+  });
+});
+
 describe('PulzrSqlQuery', () => {
   it("leaves Pulzr Net's $from and $to for the server", async () => {
     const query = vi.fn().mockResolvedValue({ ...answer, interval: null });

@@ -90,6 +90,13 @@ export interface MetricResponse {
   series: Array<{ t: string; value: number | null; samples?: number }>;
 }
 
+export interface LiveDevice {
+  devEui: string;
+  name: string;
+  lastSeen: string;
+  location?: { latitude: number; longitude: number; source: 'device' | 'gateway' } | null;
+}
+
 export interface DeviceSummary {
   devEui: string;
   name: string;
@@ -164,6 +171,27 @@ export function toTimeSeriesData(response: QueryResponse, timeRange: AbsoluteTim
     series: toTimeSeries(response),
     metadata: response.latest ? { latest: response.latest } : undefined,
   };
+}
+
+/**
+ * Labels each per-device series with where the device is, for a map panel.
+ * net-api names a per-device series by the device's name.
+ */
+export function withPositions(series: TimeSeries[], devices: LiveDevice[]): TimeSeries[] {
+  const byName = new Map(devices.filter((d) => d.location).map((d) => [d.name, d]));
+  return series.map((s) => {
+    const device = byName.get(s.name);
+    if (!device?.location) return s;
+    return {
+      ...s,
+      labels: {
+        ...s.labels,
+        devEui: device.devEui,
+        latitude: String(device.location.latitude),
+        longitude: String(device.location.longitude),
+      },
+    };
+  });
 }
 
 /** Perses's value for a variable's "All" option. */

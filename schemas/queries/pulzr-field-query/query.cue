@@ -22,6 +22,7 @@ spec: close({
 		value: _
 	})]
 	carryForward?: bool
+	positions?:    bool
 	holdFor?:      common.#duration
 	band?:         close({lo: #edge, hi: #edge}) | close({center: #edge, spread: #edge})
 })

@@ -18,6 +18,7 @@ export const INITIAL_SPEC_PROXY: PulzrDatasourceSpec = {
         { endpointPattern: '/api/v1/data/query', method: 'POST' },
         { endpointPattern: '/api/v1/data/analytics', method: 'POST' },
         { endpointPattern: '/api/v1/data/devices', method: 'GET' },
+        { endpointPattern: '/api/v1/data/devices/live', method: 'GET' },
         { endpointPattern: '/api/v1/data/fields', method: 'GET' },
       ],
     },

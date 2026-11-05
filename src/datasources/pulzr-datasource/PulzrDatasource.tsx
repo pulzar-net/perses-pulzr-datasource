@@ -43,6 +43,15 @@ const createClient: DatasourcePlugin<PulzrDatasourceSpec, PulzrDatasourceClient>
           signal,
         )
       ).result,
+    liveDevices: async (signal) =>
+      (
+        await call<{ result: Awaited<ReturnType<PulzrDatasourceClient['liveDevices']>> }>(
+          'GET',
+          '/api/v1/data/devices/live',
+          undefined,
+          signal,
+        )
+      ).result,
     fields: async (signal) =>
       (await call<{ result: string[] }>('GET', '/api/v1/data/fields', undefined, signal)).result,
   };

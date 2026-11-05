@@ -49,6 +49,7 @@ Every request is made as the API key or signed-in user behind it, with the same 
                - { endpointPattern: /api/v1/data/query, method: POST }
                - { endpointPattern: /api/v1/data/analytics, method: POST }
                - { endpointPattern: /api/v1/data/devices, method: GET }
+               - { endpointPattern: /api/v1/data/devices/live, method: GET }
                - { endpointPattern: /api/v1/data/fields, method: GET }
    ```
 

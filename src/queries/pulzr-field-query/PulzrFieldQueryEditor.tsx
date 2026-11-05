@@ -112,6 +112,16 @@ export function PulzrFieldQueryEditor(props: OptionsEditorProps<PulzrFieldQueryS
             />
           }
         />
+        <FormControlLabel
+          label="Positions, for a map"
+          control={
+            <Switch
+              checked={Boolean(value.positions)}
+              disabled={isReadonly || value.groupBy !== 'device'}
+              onChange={(_, checked) => set({ positions: checked || undefined })}
+            />
+          }
+        />
       </Stack>
       <TextField
         label="Hold for"

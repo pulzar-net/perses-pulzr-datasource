@@ -100,6 +100,16 @@ npm run build                # the npm package and module-federation bundle, in 
 percli plugin build          # the archive a Perses server installs
 ```
 
+### Releasing
+
+Set the new version in `package.json`, commit, then tag and push it:
+
+```bash
+git tag v0.2.0 && git push origin v0.2.0
+```
+
+The Release workflow tests and builds, publishes the package to npm with provenance, and attaches the Perses plugin archive and the npm tarball to a GitHub release.
+
 ## License
 
 Apache 2.0

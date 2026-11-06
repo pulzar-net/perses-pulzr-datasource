@@ -9,7 +9,7 @@ Sensor readings from [Pulzr Net](https://app.pulzr.net) on [Perses](https://pers
 | `PulzrSqlQuery` | TimeSeriesQuery | A read-only SQL SELECT over your readings, `$from` and `$to` set to the dashboard's range |
 | `PulzrMetricQuery` | TimeSeriesQuery | Occupancy rate, turnover, dwell and sensors reporting over time; occupancy by weekday and hour as a grid in `metadata.matrix` |
 | `PulzrChangeAnnotation` | Annotation | Marks every change of up to four fields, such as a recipe stage or a mode |
-| `PulzrDeviceVariable` | Variable | The devices heard in the last 30 days, by name, optionally only those with one device tag |
+| `PulzrDeviceVariable` | Variable | The devices heard in the last 30 days, by name |
 
 Every request is made as the API key or signed-in user behind it, with the same organization, application and retention limits as the Pulzr console.
 

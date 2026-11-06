@@ -25,8 +25,7 @@ export interface PulzrDatasourceClient extends DatasourceClient {
     body: MetricQuery & { timeRange: { from: string; to: string } },
     signal?: AbortSignal,
   ): Promise<MetricResponse>;
-  /** Devices heard in the last 30 days; only those carrying `tag` when given. */
-  devices(signal?: AbortSignal, tag?: string): Promise<DeviceSummary[]>;
+  devices(signal?: AbortSignal): Promise<DeviceSummary[]>;
   liveDevices(signal?: AbortSignal): Promise<LiveDevice[]>;
   fields(signal?: AbortSignal): Promise<string[]>;
 }

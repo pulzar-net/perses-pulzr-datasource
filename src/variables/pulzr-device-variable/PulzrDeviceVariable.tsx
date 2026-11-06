@@ -10,7 +10,7 @@ export const PulzrDeviceVariable: VariablePlugin<PulzrDeviceVariableSpec> = {
     const client = await ctx.datasourceStore.getDatasourceClient<PulzrDatasourceClient>(
       spec.datasource ?? DEFAULT_DATASOURCE,
     );
-    const devices = await client.devices(abortSignal, spec.tag);
+    const devices = await client.devices(abortSignal);
     return { data: devices.map((d) => ({ label: d.name || d.devEui, value: d.devEui })) };
   },
   OptionsEditorComponent: PulzrDeviceVariableEditor,

@@ -1,0 +1,10 @@
+{
+  "kind": "PulzrFieldQuery",
+  "spec": {
+    "field": "do.heater",
+    "fields": ["do.heater", "do.humid"],
+    "aggregate": "timeWeighted",
+    "names": { "do.heater": "Heater", "do.humid": "Humidifier" },
+    "scale": 1000
+  }
+}

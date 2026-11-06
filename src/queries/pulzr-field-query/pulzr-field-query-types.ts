@@ -12,4 +12,8 @@ export interface PulzrFieldQuerySpec extends Omit<FieldQuery, 'devices' | 'annot
   devices?: string | string[];
   /** With one series per device, label each with the device's position, for a map. */
   positions?: boolean;
+  /** Display names by series name (a field, or a device with one series per device). */
+  names?: Record<string, string>;
+  /** Multiply every value, e.g. by 1000 to show kWh as Wh. */
+  scale?: number;
 }

@@ -1,1 +1,0 @@
-{ "kind": "PulzrMetricQuery", "spec": { "metric": "occupancyByHour", "field": "park_status" } }

@@ -23,6 +23,8 @@ spec: close({
 	})]
 	carryForward?: bool
 	positions?:    bool
+	names?: [string]: strings.MinRunes(1)
+	scale?: number & !=0
 	holdFor?:      common.#duration
 	band?:         close({lo: #edge, hi: #edge}) | close({center: #edge, spread: #edge})
 })

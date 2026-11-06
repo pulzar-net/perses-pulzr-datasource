@@ -121,3 +121,32 @@ describe('PulzrMetricQuery', () => {
     expect(data.metadata).toMatchObject({ unit: '%' });
   });
 });
+
+describe('PulzrMetricQuery occupancyByHour', () => {
+  it('carries the weekday-by-hour grid as metadata, with no series', async () => {
+    const matrix = [{ dow: 1, hour: 8, value: 62.5, samples: 40 }];
+    const metric = vi.fn().mockResolvedValue({ metric: 'occupancyByHour', unit: '%', matrix });
+    const data = await PulzrMetricQuery.getTimeSeriesData(
+      { metric: 'occupancyByHour', field: 'park_status' },
+      context({ metric }),
+    );
+    expect(data.series).toEqual([]);
+    expect(data.metadata).toMatchObject({ matrix, unit: '%' });
+  });
+});
+
+describe('PulzrFieldQuery names and scale', () => {
+  it('applies display names and the scale to what the API answered', async () => {
+    const query = vi.fn().mockResolvedValue(answer);
+    const data = await PulzrFieldQuery.getTimeSeriesData(
+      { field: 'temperature', names: { value: 'Chamber' }, scale: 2 },
+      context({ query }),
+    );
+    expect(query.mock.calls[0]![0].query).not.toHaveProperty('names');
+    expect(query.mock.calls[0]![0].query).not.toHaveProperty('scale');
+    expect(data.series[0]).toMatchObject({
+      formattedName: 'Chamber',
+      values: [[Date.parse('2026-11-05T00:00:00Z'), 43]],
+    });
+  });
+});

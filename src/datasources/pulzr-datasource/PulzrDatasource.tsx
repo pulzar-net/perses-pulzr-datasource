@@ -34,11 +34,11 @@ const createClient: DatasourcePlugin<PulzrDatasourceSpec, PulzrDatasourceClient>
     url,
     query: (body, signal) => call('POST', '/api/v1/data/query', body, signal),
     metric: (body, signal) => call('POST', '/api/v1/data/analytics', body, signal),
-    devices: async (signal) =>
+    devices: async (signal, tag) =>
       (
         await call<{ result: Awaited<ReturnType<PulzrDatasourceClient['devices']>> }>(
           'GET',
-          '/api/v1/data/devices',
+          tag ? `/api/v1/data/devices?tag=${encodeURIComponent(tag)}` : '/api/v1/data/devices',
           undefined,
           signal,
         )

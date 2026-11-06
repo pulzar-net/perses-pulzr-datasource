@@ -11,6 +11,7 @@ const METRICS: Array<{ value: Metric; label: string }> = [
   { value: 'turnover', label: 'Turnover (changes per bucket)' },
   { value: 'dwell', label: 'Dwell (mean minutes)' },
   { value: 'reporting', label: 'Sensors reporting' },
+  { value: 'occupancyByHour', label: 'Occupancy by weekday and hour (%)' },
 ];
 
 export function PulzrMetricQueryEditor(props: OptionsEditorProps<PulzrMetricQuerySpec>): ReactElement {

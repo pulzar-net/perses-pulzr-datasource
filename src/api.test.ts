@@ -1,6 +1,6 @@
 import type { VariableStateMap } from '@perses-dev/plugin-system';
 
-import { intervalMs, resolveDevices, stepMs, toTimeSeries } from './api';
+import { intervalMs, relabel, resolveDevices, stepMs, toTimeSeries } from './api';
 import type { QueryResponse } from './api';
 
 const answer = (patch: Partial<QueryResponse> = {}): QueryResponse => ({
@@ -20,6 +20,11 @@ describe('intervalMs', () => {
     expect(intervalMs('5 minutes')).toBe(300_000);
     expect(intervalMs('1 hour')).toBe(3_600_000);
     expect(intervalMs('1 day')).toBe(86_400_000);
+  });
+
+  it("reads a query's own short bucket", () => {
+    expect(intervalMs('30m')).toBe(1_800_000);
+    expect(intervalMs('1h')).toBe(3_600_000);
   });
 
   it('has no step for SQL, which buckets itself', () => {
@@ -75,5 +80,37 @@ describe('resolveDevices', () => {
     expect(resolveDevices('$device', state('$__all'))).toEqual([]);
     expect(resolveDevices('$device', state(['$__all']))).toEqual([]);
     expect(resolveDevices('$device', {})).toEqual([]);
+  });
+});
+
+describe('relabel', () => {
+  const data = {
+    series: [
+      {
+        name: 'do.heater',
+        values: [
+          [1, 0.5],
+          [2, null],
+        ] as Array<[number, number | null]>,
+      },
+    ],
+    metadata: { latest: { 'do.heater': { value: 0.25, time: '', since: null, sinceAtLeast: false } } },
+  };
+
+  it('names series and scales every value, current ones included', () => {
+    const out = relabel(data, { 'do.heater': 'Heater' }, 100);
+    expect(out.series[0]).toMatchObject({
+      formattedName: 'Heater',
+      values: [
+        [1, 50],
+        [2, null],
+      ],
+    });
+    const latest = out.metadata!.latest as Record<string, { value: number }>;
+    expect(latest['do.heater']!.value).toBe(25);
+  });
+
+  it('leaves data alone without names or a scale', () => {
+    expect(relabel(data)).toEqual({ ...data, series: [{ ...data.series[0], formattedName: undefined }] });
   });
 });

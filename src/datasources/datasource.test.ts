@@ -15,3 +15,10 @@ it("reports net-api's error message", async () => {
   await expect(client.query({ query: {}, timeRange: { from: '', to: '' } })).rejects.toThrow('Malformed DevEUI: x');
   expect(fetch.mock.calls[0]![0]).toBe('/proxy/globaldatasources/pulzr/api/v1/data/query');
 });
+
+it("asks for one tag's devices", async () => {
+  const fetch = vi.fn().mockResolvedValue(new Response(JSON.stringify({ result: [] })));
+  const client = PulzrDatasource.createClient({ directUrl: '' }, { fetch });
+  await client.devices(undefined, 'lot a');
+  expect(fetch.mock.calls[0]![0]).toBe('/api/v1/data/devices?tag=lot%20a');
+});

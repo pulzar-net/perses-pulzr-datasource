@@ -18,6 +18,14 @@ export const getTimeSeriesData: TimeSeriesQueryPlugin<PulzrMetricQuerySpec>['get
     { ...query, devices: resolveDevices(devices, context.variableState), timeRange: apiTimeRange(context.timeRange) },
     abortSignal,
   );
+  // A weekday-by-hour grid has no time axis: it travels as metadata, for a
+  // panel that draws the grid.
+  if (response.matrix) {
+    return {
+      series: [],
+      metadata: { matrix: response.matrix, unit: response.unit ?? undefined, description: response.description },
+    };
+  }
   const points = response.series ?? [];
   const gaps = points.slice(1).map((p, i) => Date.parse(p.t) - Date.parse(points[i]!.t));
   return {

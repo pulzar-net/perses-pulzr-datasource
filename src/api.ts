@@ -71,7 +71,15 @@ export interface QueryResponse {
   latest?: Record<string, Latest>;
 }
 
-export type Metric = 'occupancyRate' | 'turnover' | 'dwell' | 'reporting';
+export type Metric = 'occupancyRate' | 'turnover' | 'dwell' | 'reporting' | 'occupancyByHour';
+
+/** One cell of `occupancyByHour`: ISO weekday (1 = Monday) by hour. */
+export interface MatrixCell {
+  dow: number;
+  hour: number;
+  value: number;
+  samples: number;
+}
 
 /** The body for POST /api/v1/data/analytics, less `timeRange`. */
 export interface MetricQuery {
@@ -87,7 +95,9 @@ export interface MetricResponse {
   metric: Metric;
   description?: string;
   unit?: string | null;
-  series: Array<{ t: string; value: number | null; samples?: number }>;
+  /** Absent for `occupancyByHour`, which answers with `matrix`. */
+  series?: Array<{ t: string; value: number | null; samples?: number }>;
+  matrix?: MatrixCell[];
 }
 
 export interface LiveDevice {
@@ -117,8 +127,15 @@ const UNIT_MS = {
   week: 604_800_000,
 } as const;
 
-/** A Postgres interval (`30 minutes`) in milliseconds. */
+const SHORT_UNIT = { s: 'second', m: 'minute', h: 'hour', d: 'day' } as const;
+
+/**
+ * A bucket in milliseconds: a query's own (`30m`), or a Postgres interval
+ * (`30 minutes`), which is how net-api answers with the one it used.
+ */
 export function intervalMs(interval: string | null | undefined): number | undefined {
+  const short = /^(\d+)([smhd])$/.exec(interval ?? '');
+  if (short) return Number(short[1]) * UNIT_MS[SHORT_UNIT[short[2] as keyof typeof SHORT_UNIT]];
   const match = /^(\d+) (second|minute|hour|day|week)s?$/.exec(interval ?? '');
   return match ? Number(match[1]) * UNIT_MS[match[2] as keyof typeof UNIT_MS] : undefined;
 }
@@ -162,6 +179,32 @@ export function toTimeSeries(response: QueryResponse): TimeSeries[] {
     }
   }
   return series;
+}
+
+/**
+ * Display names, and every value multiplied by `scale`: the band and the
+ * current values too, so a fraction drawn as a percentage is one everywhere.
+ */
+export function relabel(data: TimeSeriesData, names?: Record<string, string>, scale?: number): TimeSeriesData {
+  const times = (v: number | null): number | null => (v === null || !scale ? v : v * scale);
+  const latest = data.metadata?.latest as Record<string, Latest> | undefined;
+  return {
+    ...data,
+    series: data.series.map((s) => ({
+      ...s,
+      formattedName: names?.[s.name] ?? s.formattedName,
+      values: scale ? s.values.map(([t, v]) => [t, times(v)]) : s.values,
+    })),
+    metadata:
+      latest && scale
+        ? {
+            ...data.metadata,
+            latest: Object.fromEntries(
+              Object.entries(latest).map(([k, now]) => [k, { ...now, value: times(now.value) }]),
+            ),
+          }
+        : data.metadata,
+  };
 }
 
 export function toTimeSeriesData(response: QueryResponse, timeRange: AbsoluteTimeRange): TimeSeriesData {

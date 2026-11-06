@@ -1,6 +1,6 @@
 import type { TimeSeriesQueryPlugin } from '@perses-dev/plugin-system';
 
-import { apiTimeRange, resolveDevices, toTimeSeriesData, withPositions } from '../../api';
+import { apiTimeRange, relabel, resolveDevices, toTimeSeriesData, withPositions } from '../../api';
 import type { PulzrDatasourceClient } from '../../datasources/pulzr-datasource/pulzr-datasource-types';
 import { DEFAULT_DATASOURCE } from '../../datasources/pulzr-datasource/selector';
 import type { PulzrFieldQuerySpec } from './pulzr-field-query-types';
@@ -12,7 +12,7 @@ export const getTimeSeriesData: TimeSeriesQueryPlugin<PulzrFieldQuerySpec>['getT
 ) => {
   if (!spec.field && !spec.fields?.length) return { series: [] };
 
-  const { datasource, devices, positions, ...query } = spec;
+  const { datasource, devices, positions, names, scale, ...query } = spec;
   const client = await context.datasourceStore.getDatasourceClient<PulzrDatasourceClient>(
     datasource ?? DEFAULT_DATASOURCE,
   );
@@ -26,7 +26,7 @@ export const getTimeSeriesData: TimeSeriesQueryPlugin<PulzrFieldQuerySpec>['getT
     },
     abortSignal,
   );
-  const data = toTimeSeriesData(response, context.timeRange);
+  const data = relabel(toTimeSeriesData(response, context.timeRange), names, scale);
   if (!positions || query.groupBy !== 'device') return data;
   return { ...data, series: withPositions(data.series, await client.liveDevices(abortSignal)) };
 };
